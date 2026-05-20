@@ -61,13 +61,6 @@ This project demonstrates a set of lightweight rules that produce actionable ale
 
 ---
 
-## Technologies Used
-
-- Language: C++ (standard library)
-- Concepts: vectors, 2D arrays, functions, loops, simple statistics
-
----
-
 ## Project Structure
 
 - [README.md](README.md)
