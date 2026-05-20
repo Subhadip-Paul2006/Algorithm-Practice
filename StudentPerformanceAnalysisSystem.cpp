@@ -1,10 +1,16 @@
+//Student Performance Analysis System - Part 01 
 #include <iostream>
 #include <vector>
 #include <iomanip>
 
 using namespace std;
 
-// Function to generate priority/weight automatically
+// Function Declare: 
+double generateWeight(int testNumber, int totalTests );
+double calculateWeightedScore( vector<int>& studentMarks, int totalTests );
+
+// Functions Logic
+// 01. Function to generate priority/weight automatically
 double generateWeight(int testNumber, int totalTests)
 {
     // Linear Priority Algorithm
@@ -20,11 +26,8 @@ double generateWeight(int testNumber, int totalTests)
     */
 }
 
-// Function to calculate weighted average
-double calculateWeightedScore(
-    vector<int>& studentMarks,
-    int totalTests
-)
+// 02. Function to calculate weighted average
+double calculateWeightedScore( vector<int>& studentMarks, int totalTests )
 {
     double weightedSum = 0;
     double totalWeight = 0;
@@ -51,7 +54,7 @@ int main()
     cout << "Enter Number of Tests: ";
     cin >> tests;
 
-    // 2D Matrix
+    // 2D Matrix for storing the marks 
     vector<vector<int>> marks(students, vector<int>(tests));
 
     // Input marks
