@@ -70,15 +70,11 @@ This project demonstrates a set of lightweight rules that produce actionable ale
 
 ## Project Structure
 
-```text
-Student-Performance-Analysis-System/
-│
-├── README.md
-├── Part01.cpp    # Weighted score + basic classification
-├── Part02.cpp    # Adds declining-trend detection
-├── Part03.cpp    # Adds inconsistent-performance detection
-└── Part04.cpp    # Adds consecutive-failure detection
-```
+- [README.md](README.md)
+- [Part01.cpp](Part01.cpp) — Weighted score + basic classification
+- [Part02.cpp](Part02.cpp) — Adds declining-trend detection
+- [Part03.cpp](Part03.cpp) — Adds inconsistent-performance detection
+- [Part04.cpp](Part04.cpp) — Adds consecutive-failure detection
 
 ---
 
