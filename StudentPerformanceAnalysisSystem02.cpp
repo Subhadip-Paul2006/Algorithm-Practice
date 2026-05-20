@@ -13,33 +13,35 @@ bool decliningTrend(vector<int>& marks, int totalTests);
 
 
 // 01. Function to generate priority/weight automatically
+// Using a linear priority logic here so later tests matter more
 double generateWeight(int testNumber, int totalTests)
 {
     // Linear Priority Algorithm
-    return testNumber + 1;
+    return testNumber + 1; // simple linear weight: 1, 2, 3...
 }
 
 // 02. Function to calculate weighted average
 double calculateWeightedScore( vector<int>& studentMarks, int totalTests ) 
 {
     double weightedSum = 0;
-    double totalWeight = 0;
+    double totalWeight = 0; // need this for the denominator
 
     for(int i = 0; i < totalTests; i++)
     {
         double weight = generateWeight(i, totalTests);
 
         weightedSum += studentMarks[i] * weight;
-        totalWeight += weight;
+        totalWeight += weight; // keeping track of total weight 
     }
 
-    return weightedSum / totalWeight;
+    return weightedSum / totalWeight; // final weighted avg
 }
 
 // 03. Function to detect declining trend
+// Checks if recent performance has dropped compared to overall average
 bool decliningTrend(vector<int>& marks, int totalTests)
 {
-    // Need minimum 4 tests for applying this testcase
+    // Need minimum 4 tests for applying this testcase to make sense
     if(totalTests < 4)
     {
         return false;
@@ -47,21 +49,21 @@ bool decliningTrend(vector<int>& marks, int totalTests)
 
     int recentWindow;
 
-    // Decide window size dynamically
+    // Decide window size dynamically based on how many tests we took
     if(totalTests == 4)
     {
-        recentWindow = 2;
+        recentWindow = 2; // last 2 tests
     }
     else if(totalTests >= 5 && totalTests <= 8)
     {
-        recentWindow = 3;
+        recentWindow = 3; // last 3 tests
     }
     else
     {
-        recentWindow = 5;
+        recentWindow = 5; // enough data to look at the last 5
     }
 
-    // Calculate overall average
+    // Calculate overall average first
     double overallSum = 0;
 
     for(int i = 0; i < totalTests; i++)
@@ -71,7 +73,7 @@ bool decliningTrend(vector<int>& marks, int totalTests)
 
     double overallAvg = overallSum / totalTests;
 
-    // Calculate recent average
+    // Calculate recent average using our dynamic window
     double recentSum = 0;
 
     for(int i = totalTests - recentWindow;
@@ -83,10 +85,10 @@ bool decliningTrend(vector<int>& marks, int totalTests)
 
     double recentAvg = recentSum / recentWindow;
 
-    // Rule Check
+    // Rule Check: If recent performance drops by more than 15 marks
     if(recentAvg < overallAvg - 15)
     {
-        return true;
+        return true; // Flag for declining trend
     }
 
     return false;
@@ -104,13 +106,13 @@ int main()
     cout << "Enter Number of Tests: ";
     cin >> tests;
 
-    // 2D Matrix for storing marks
+    // 2D Matrix for storing marks (rows = students, cols = tests)
     vector<vector<int>> marks(
         students,
         vector<int>(tests)
     );
 
-    // Input marks
+    // Input marks loop
     cout << "\n===== ENTER MARKS =====\n";
 
     for(int i = 0; i < students; i++)
@@ -126,7 +128,7 @@ int main()
 
     cout << "\n\n===== RESULT ANALYSIS =====\n";
 
-    // Final Analysis
+    // Final Analysis: crunching the numbers for each student
     for(int i = 0; i < students; i++)
     {
         double finalScore =
@@ -143,12 +145,13 @@ int main()
 
         cout << "\nStudent " << i + 1;
 
+        // Output formatting to 2 decimal places so it looks clean
         cout << "\nWeighted Score: "
              << fixed
              << setprecision(2)
              << finalScore;
 
-        // Risk Detection
+        // Risk Detection based on final weighted score thresholds
         if(finalScore >= 70)
         {
             cout << "\nStatus: PREPARED";
@@ -162,7 +165,7 @@ int main()
             cout << "\nStatus: EXTRA CLASSES REQUIRED";
         }
 
-        // Declining Trend Warning
+        // Alert if the student is slacking recently
         if(trendRisk)
         {
             cout << "\nWarning: Declining Performance Trend";
