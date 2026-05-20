@@ -38,7 +38,8 @@ double calculateWeightedScore( vector<int>& studentMarks, int totalTests )
     return weightedSum / totalWeight; // final weighted avg
 }
 
-// 03. Function to detect declining trend, Checks if recent performance has dropped compared to overall average
+// 03. Function to detect declining trend
+// Checks if recent performance has dropped compared to overall average
 bool decliningTrend(vector<int>& marks, int totalTests)
 {
     // Need minimum 4 tests for applying this testcase to make sense
@@ -94,29 +95,31 @@ bool decliningTrend(vector<int>& marks, int totalTests)
     return false;
 }
 
-// 04. Function to chech inconsestency 
+// 04. Function to check inconsistency 
+// Basically seeing if their scores are all over the place
 bool inconsistentPerformance(vector<int>& marks, int totalTests)
 {
+    // Start by assuming the first test is both highest and lowest
     int highest = marks[0];
     int lowest = marks[0];
 
-    // Find highest and lowest marks
+    // Find highest and lowest marks across all tests
     for(int i = 1; i < totalTests; i++)
     {
         if(marks[i] > highest)
         {
-            highest = marks[i];
+            highest = marks[i]; // update max
         }
 
         if(marks[i] < lowest)
         {
-            lowest = marks[i];
+            lowest = marks[i]; // update min
         }
     }
 
-    int variation = highest - lowest;
+    int variation = highest - lowest; // gap between best and worst day
 
-    // Rule Check
+    // Rule Check: if difference is 35+, they are too volatile
     if(variation >= 35)
     {
         return true;

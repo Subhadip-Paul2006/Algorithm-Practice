@@ -1,4 +1,4 @@
-// Student Performance Analysis System - Part 03
+// Student Performance Analysis System - Part 04
 
 #include <iostream>
 #include <vector>
@@ -38,7 +38,8 @@ double calculateWeightedScore(vector<int> &studentMarks, int totalTests)
     return weightedSum / totalWeight; // final weighted avg
 }
 
-// 03. Function to detect declining trend, Checks if recent performance has dropped compared to overall average
+// 03. Function to detect declining trend
+// Checks if recent performance has dropped compared to overall average
 bool decliningTrend(vector<int> &marks, int totalTests)
 {
     // Need minimum 4 tests for applying this testcase to make sense
@@ -94,29 +95,31 @@ bool decliningTrend(vector<int> &marks, int totalTests)
     return false;
 }
 
-// 04. Function to chech inconsestency
+// 04. Function to check inconsistency
+// Basically seeing if their scores are all over the place
 bool inconsistentPerformance(vector<int> &marks, int totalTests)
 {
+    // Start by assuming the first test is both highest and lowest
     int highest = marks[0];
     int lowest = marks[0];
 
-    // Find highest and lowest marks
+    // Find highest and lowest marks across all tests
     for (int i = 1; i < totalTests; i++)
     {
         if (marks[i] > highest)
         {
-            highest = marks[i];
+            highest = marks[i]; // update max
         }
 
         if (marks[i] < lowest)
         {
-            lowest = marks[i];
+            lowest = marks[i]; // update min
         }
     }
 
-    int variation = highest - lowest;
+    int variation = highest - lowest; // gap between best and worst day
 
-    // Rule Check
+    // Rule Check: if difference is 35+, they are too volatile
     if (variation >= 35)
     {
         return true;
@@ -125,7 +128,8 @@ bool inconsistentPerformance(vector<int> &marks, int totalTests)
     return false;
 }
 
-// 04. Function to check for consecutive failures (marks below 40)
+// 05. Function to check for consecutive failures (marks below 40)
+// Tracks the longest streak of bombing tests
 int consecutiveFailures(vector<int> &marks, int totalTests)
 {
     int currentFails = 0;
@@ -133,10 +137,11 @@ int consecutiveFailures(vector<int> &marks, int totalTests)
 
     for (int i = 0; i < totalTests; i++)
     {
-        if (marks[i] < 40)
+        if (marks[i] < 40) // 40 is our passing criteria here
         {
             currentFails++;
 
+            // Update the worst streak if the current one is longer
             if (currentFails > maxFails)
             {
                 maxFails = currentFails;
@@ -144,7 +149,7 @@ int consecutiveFailures(vector<int> &marks, int totalTests)
         }
         else
         {
-            // Reset streak
+            // Reset streak if they manage to pass one
             currentFails = 0;
         }
     }
@@ -187,7 +192,9 @@ int main()
     // Final Analysis: crunching the numbers for each student
     for (int i = 0; i < students; i++)
     {
+        // Grab all our metrics first
         int failStreak = consecutiveFailures(marks[i], tests);
+        
         double finalScore =
             calculateWeightedScore(
                 marks[i],
@@ -226,7 +233,7 @@ int main()
             cout << "\nWarning: Declining Performance Trend";
         }
 
-        // Alert for consecutive failures
+        // Alerts based on how many times they failed in a row
         if (failStreak == 2)
         {
             cout << "\nWarning: Consecutive Failures";
