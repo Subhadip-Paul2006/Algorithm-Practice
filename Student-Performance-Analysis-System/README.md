@@ -89,6 +89,15 @@ g++ Part04.cpp -o analysis
 
 Use the latest Part (Part04.cpp) to get all rules applied; earlier files are incremental stages.
 
+Run with the included build script and sample input (Windows):
+
+```powershell
+cd Student-Performance-Analysis-System
+build.bat
+```
+
+The script compiles `Part04.cpp` to `analysis.exe` and runs it with `sample_input.txt` so you can see the alerts and classifications non-interactively.
+
 ---
 
 ## Analysis Steps (implementation summary)
@@ -166,3 +175,36 @@ If you'd like, I can:
 - add compilation scripts, or
 - convert the code to a single configurable program, or
 - add sample test data and a small runner.
+
+---
+
+## Simple Teacher Scenario & Example
+
+Suppose I am a teacher of Mathematics. I conducted a total of X exams during the semester. I need to identify students who require extra classes because I have only one month left to improve their performance. Based on the examination results, I must decide who should get more attention and more extra classes.
+
+Concrete example (use `Part04.cpp` to run this with all rules):
+
+- Students = 3
+- Tests = 5
+- Marks matrix (rows = students):
+  - Student 1: 60, 65, 70, 75, 80
+  - Student 2: 50, 45, 40, 35, 30
+  - Student 3: 80, 30, 85, 25, 90
+
+Weights: 1, 2, 3, 4, 5 (sum = 15)
+
+Calculations:
+
+- Student 1 weighted sum = 60*1 + 65*2 + 70*3 + 75*4 + 80\*5 = 1100 → Weighted score = 1100 / 15 = 73.33 → Status: PREPARED
+- Student 2 weighted sum = 50 + 90 + 120 + 140 + 150 = 550 → Weighted score = 36.67 → Status: EXTRA CLASSES REQUIRED
+  - Consecutive failures (<40): two in a row (35, 30) → Warning: Consecutive Failures
+- Student 3 weighted sum = 80 + 60 + 255 + 100 + 450 = 945 → Weighted score = 63.00 → Status: NEEDS ATTENTION
+  - Highest = 90, Lowest = 25 → Variation = 65 ≥ 35 → Inconsistent Performance Detected
+
+Interpretation:
+
+- Focus immediate remedial classes on Student 2 (low weighted score and consecutive failures).
+- Student 3 needs targeted attention to stabilise performance (high variation between tests).
+- Student 1 is exam-ready but continue normal revision.
+
+You can copy these sample marks into the program when prompted to see the classification and alerts.
